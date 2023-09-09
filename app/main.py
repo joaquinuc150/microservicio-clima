@@ -23,4 +23,28 @@ async def root():
 @app.get("/weather")
 async def weather():
     response = requests.request("GET", url, headers=headers, params=querystring)
-    return response.json()
+
+    if response.status_code == 200:
+        # Convierte la respuesta JSON en un diccionario de Python
+        data = response.json()
+
+        # Filtra los atributos que deseas utilizar
+        filtered_data = {
+            "temp_c": data["current"]["temp_c"],
+            "precip_mm": data["current"]["precip_mm"],
+            # Agrega aquí más atributos que desees
+        }
+        print(filtered_data)
+
+        # Devuelve los datos filtrados como respuesta
+        #return JSONResponse(content=filtered_data)
+        return filtered_data
+    else:
+        # Maneja los casos en los que la solicitud no fue exitosa
+        return {"error": "Error en la solicitud"}
+    
+    #return JSONResponse(content=filtered_data)
+
+
+
+
