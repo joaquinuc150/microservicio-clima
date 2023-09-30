@@ -5,6 +5,11 @@ Microservicio de Clima para la aplicación Chatbot Granja
 
 El sistema se debe ejecutar en el siguiente orden:
 
+- Crear network:
+  
+      docker network create farm
+
+
 - Primero ejecutar el message_broker en la carpeta message_broker
 
       docker-compose -p message_broker up --build
