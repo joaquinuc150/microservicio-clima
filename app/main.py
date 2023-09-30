@@ -1,9 +1,16 @@
 from fastapi import FastAPI
 from dotenv import load_dotenv
+from .events import Emit
 import os
 import requests
+import pika
+import logging
+
+emit_events = Emit()
 
 url = "https://weatherapi-com.p.rapidapi.com/current.json"
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s:%(levelname)s:%(name)s:%(message)s')
 
 querystring = {"q":"Santiago"}
 
@@ -34,8 +41,8 @@ async def weather():
             "precip_mm": data["current"]["precip_mm"],
             # Agrega aquí más atributos que desees
         }
-        print(filtered_data)
-
+        logging.info(f"El clima en {querystring['q']} es de {filtered_data['temp_c']}°C")
+        emit_events.send(1, "check", filtered_data)
         # Devuelve los datos filtrados como respuesta
         #return JSONResponse(content=filtered_data)
         return filtered_data
@@ -44,7 +51,3 @@ async def weather():
         return {"error": "Error en la solicitud"}
     
     #return JSONResponse(content=filtered_data)
-
-
-
-
