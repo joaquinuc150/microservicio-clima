@@ -4,7 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
 class ClimaCiudad(Base):
-    __tablename__ = "clima"
+    __tablename__ = "climaciudad"
 
     id = Column(Integer, primary_key=True, index=True)
     nombre = Column(String, unique=True, index=True)

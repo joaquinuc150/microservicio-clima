@@ -26,7 +26,7 @@ headers = {
 	"X-RapidAPI-Host": "weatherapi-com.p.rapidapi.com"
 }
 
-app = FastAPI()
+app = FastAPI(debug=True)
 
 
 database_url = "postgresql://postgres:example@db/example_db"
@@ -44,9 +44,11 @@ def get_weather(ciudad):
         filtered_data = {
             "temp_c": data["current"]["temp_c"],
             "precip_mm": data["current"]["precip_mm"],           
-        }     
+        } 
+        print(response.status_code)    
         return filtered_data   
-    else:        
+    else:
+        print(response.text)        
         return "Error"
 
 def anadir_ciudad(ciudad):
@@ -75,7 +77,7 @@ async def root():
     return {"message": "Microservicio Clima :D"}
 
 
-class ClimaCiudad(BaseModel):
+class ClimaCiudads(BaseModel):
     temperatura: str
     precipitacion: str
 
@@ -92,7 +94,7 @@ class ClimaCiudad(BaseModel):
 
 @app.get(
         "/weather/{ciudad}",
-        response_model=ClimaCiudad,
+        response_model=ClimaCiudads,
         summary="Obtener clima",
         description="Obtener la temperatura y la precipitacion del día en una ciudad",
     )
