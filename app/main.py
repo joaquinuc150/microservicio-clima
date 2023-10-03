@@ -122,8 +122,8 @@ async def weather(ciudad: str):
 
     
     filtered_data = {
-        "temp_c": temperatura,
-        "precip_mm": precipitacion,           
+        "temperatura": temperatura,
+        "precipitacion": precipitacion,           
        }
     logging.info(f"El clima en {ciudad} es de {temperatura}°C")
     emit_events.send(1, "check", filtered_data)       

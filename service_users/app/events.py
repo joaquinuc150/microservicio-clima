@@ -56,7 +56,7 @@ class Receive:
 
     def callback(self, ch, method, properties, body):
         body = json.loads(body)
-        logging.info(f"Clima en Santiago: {body['temp_c']} grados Celcius y {body['precip_mm']} milimetros de agua 🌧")
+        logging.info(f"Clima en Santiago: {body['temperatura']} grados Celcius y {body['precipitacion']} milimetros de agua 🌧")
         ch.basic_ack(delivery_tag=method.delivery_tag)
 
     def close(self):
