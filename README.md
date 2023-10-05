@@ -1,5 +1,16 @@
-# microservicio-clima
-Microservicio de Clima para la aplicación Chatbot Granja
+# Microservicio-clima
+[Microservicio de Clima para la aplicación Chatbot Granja](https://github.com/joaquinuc150/microservicio-clima)
+
+- Debora Alayo
+- Joaquín Gatica
+
+## Pre-Instalación
+
+El sistema utiliza como variable de entorno una API-KEY del RapidApi para obtener el clima actual de las ciudad:
+
+- Ingresar a [WeatherAPI](https://rapidapi.com/weatherapi/api/weatherapi-com), suscribirse al servicio y ingresar como variable de entorno el RAPID_KEY.
+
+*Para no crear cuenta, utilizar .env que se encuentra en la entrega de aula*
 
 ## Como usar
 
@@ -24,3 +35,5 @@ El sistema se debe ejecutar en el siguiente orden:
       // Servicio Usuarios
       cd service_users
       docker-compose up --build
+
+- Para ingresar al servicio clima, ingresar a [localhost:80/docs](localhost:80/docs) para ver documentación del servicio.
