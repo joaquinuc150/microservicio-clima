@@ -6,6 +6,7 @@ import requests
 import pika
 import logging
 from sqlalchemy import create_engine
+from datetime import datetime
 from sqlalchemy.orm import sessionmaker
 from pydantic import BaseModel
 from .models import Base, ClimaCiudad
@@ -51,7 +52,7 @@ def get_weather(ciudad):
         print(response.text)        
         return "Error"
 
-def anadir_ciudad(ciudad):
+def anadir_ciudad(ciudad,fecha_a):
     clima_c = get_weather(ciudad)
 
     if clima_c == "Error":
@@ -62,7 +63,7 @@ def anadir_ciudad(ciudad):
     temp = clima_c["temp_c"]
     precip = clima_c["precip_mm"]
     db = SessionLocal()
-    db_ciudad = ClimaCiudad(nombre=ciudad, temperatura=temp, precipitacion=precip)
+    db_ciudad = ClimaCiudad(nombre=ciudad, temperatura=temp, precipitacion=precip, fecha=fecha_a)
 
     db.add(db_ciudad)
     db.commit()
@@ -81,16 +82,7 @@ class ClimaCiudads(BaseModel):
     temperatura: str
     precipitacion: str
 
-    model_config = {
-        "json_schema_extra": {
-            "examples": [
-                {
-                    "temperatura": "21",
-                    "precipitacion": "0.0",
-                }
-            ]
-        }
-    }
+    
 
 @app.get(
         "/weather/{ciudad}",
@@ -101,13 +93,15 @@ class ClimaCiudads(BaseModel):
      #solicitan clima
 async def weather(ciudad: str):
 
+    fecha_actual = datetime.now().date()
+
     db = SessionLocal()
-    ciudad_db = db.query(ClimaCiudad).filter(ClimaCiudad.nombre == ciudad).first()
+    ciudad_db = db.query(ClimaCiudad).filter(ClimaCiudad.nombre == ciudad, ClimaCiudad.fecha == fecha_actual).first()
     db.close()
 
     if ciudad_db is None:
-        logging.info(f"El clima para {ciudad} no esta en la base de datos")
-        ciudad_cr = anadir_ciudad(ciudad) #ciudad creada
+        logging.info(f"El clima para {ciudad} de hoy no esta en la base de datos")
+        ciudad_cr = anadir_ciudad(ciudad,fecha_actual) #ciudad creada
         if ciudad_cr == "Error":
             raise HTTPException(status_code=404, detail="No se ha podido encontrar el clima de la ciudad")
         
