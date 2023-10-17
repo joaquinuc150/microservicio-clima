@@ -6,9 +6,11 @@
 
 ## Pre-Instalación
 
-El sistema utiliza como variable de entorno una API-KEY del RapidApi para obtener el clima actual de las ciudad:
+El sistema utiliza como variable de entorno una API-KEY del RapidApi para obtener el clima actual de las ciudades:
 
 - Ingresar a [WeatherAPI](https://rapidapi.com/weatherapi/api/weatherapi-com), suscribirse al servicio y ingresar como variable de entorno el RAPID_KEY.
+
+- Crear archivo .env dentro de la carpeta /app, con la variable de entorno RAPID_KEY='API-KEY-DE-RapidAPI'
 
 *Para no crear cuenta, utilizar .env que se encuentra en la entrega de aula*
 
@@ -18,7 +20,7 @@ El sistema se debe ejecutar en el siguiente orden:
 
 - Crear network:
   
-      docker network create farm
+      docker network create microsvcs
 
 
 - Primero ejecutar el message_broker en la carpeta message_broker

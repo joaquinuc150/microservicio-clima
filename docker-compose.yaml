@@ -22,5 +22,5 @@ services:
 
 networks:
   default:
-    name: 'farm'
+    name: 'microsvcs'
     external: true
