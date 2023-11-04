@@ -30,7 +30,8 @@ headers = {
 app = FastAPI(debug=True)
 
 
-database_url = "postgresql://postgres:example@db/example_db"
+database_url = "postgresql://postgres:example@postgres-service:5432/example_db"
+
 engine = create_engine(database_url)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base.metadata.create_all(bind=engine)
