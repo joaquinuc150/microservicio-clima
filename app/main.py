@@ -10,6 +10,7 @@ from datetime import datetime
 from sqlalchemy.orm import sessionmaker
 from pydantic import BaseModel
 from .models import Base, ClimaCiudad
+import os
 
 
 
@@ -21,16 +22,27 @@ logging.basicConfig(level=logging.INFO,
 
 
 load_dotenv()
+rapid_api_key = os.environ.get('RAPID_API_KEY', 'default_apikey')
+rapid_api_host = os.environ.get('RAPID_API_HOST', 'default_apihost')
 
+# Headers para la solicitud HTTP
 headers = {
-	"X-RapidAPI-Key": os.getenv('RAPID_API_KEY'),
-	"X-RapidAPI-Host": "weatherapi-com.p.rapidapi.com"
+    "X-RapidAPI-Key": rapid_api_key,
+    "X-RapidAPI-Host": rapid_api_host
 }
 
 app = FastAPI(debug=True)
 
 
-database_url = "postgresql://postgres:example@postgres-service:5432/example_db"
+
+# Fetching values from environment variables
+db_username = os.environ.get('DB_USERNAME', 'default_username')
+db_password = os.environ.get('DB_PASSWORD', 'default_password')
+db_name = os.environ.get('DB_NAME', 'default_database')
+
+# Constructing the database URL
+database_url = f"postgresql://{db_username}:{db_password}@postgres-service:5432/{db_name}"
+
 
 engine = create_engine(database_url)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
